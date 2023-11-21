@@ -3,7 +3,6 @@ package com.example.journey
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.RecyclerView
 import com.example.journey.adapter.StoryAdapter
 import com.example.journey.data.StoriesData
 import com.example.journey.databinding.ActivityMainBinding
