@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">Journey</string>
+
+    <!-- Strings used as placeholders for RecyclerView  -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_placeholder">Title</string>
+    <string name="subtitle_placeholder">Subtitle</string>
+    <string name="story_description_placeholder">Trip with the boys to see the Track-mania Cup 🏎️</string>
+    <string name="story_detail_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Praesent ultrices congue rutrum. Phasellus elementum ipsum ac convallis aliquam. Suspendisse
+        eleifend eros a enim faucibus mollis. Nunc placerat, est vitae vestibulum blandit, dolor
+        diam fringilla tellus, eu euismod mauris neque at neque.</string>
+
+    <!-- String used to populate some story cards -->
+    <string name="china_title">The Journey of a Thousand Miles</string>
+    <string name="egypt_title">Mysteries of the Pharaohs</string>
+    <string name="italy_title">Romance in the Ruins</string>
+    <string name="japan_title">Land of the Rising Sun</string>
+    <string name="mexico_title">Colors of the Fiesta</string>
+    <string name="peru_title">Inca Trails and Tales</string>
+
+    <string name="china_subtitle">Begins with a single step</string>
+    <string name="egypt_subtitle">Where ancient meets modern</string>
+    <string name="italy_subtitle">A journey through history and cuisine</string>
+    <string name="japan_subtitle">Tradition entwined with innovation</string>
+    <string name="mexico_subtitle">Vibrant culture, warm hearts</string>
+    <string name="peru_subtitle">Mystic landscapes and hidden wonders</string>
+</resources>
