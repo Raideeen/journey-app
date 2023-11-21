@@ -1,24 +1,39 @@
 package com.example.journey
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.journey.adapter.StoryAdapter
 import com.example.journey.data.StoriesData
+import com.example.journey.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var storyAdapter: StoryAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+
+        // * Set the content from the binding layout and not from the activity_main.xml
+        setContentView(binding.root)
 
         // Initialize data.
         val storyList = StoriesData.getStoriesData()
 
-        // Initialize recycler view.
-        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
-        recyclerView.adapter = StoryAdapter(this, storyList)
+        // * Set the adapter on the RecyclerView.
+        storyAdapter = StoryAdapter { story ->
+            Toast.makeText(
+                this,
+                "${story.titleResourceId}",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+        binding.recyclerView.adapter = storyAdapter
 
-        // Improve performance by setting fixed size.
-        recyclerView.setHasFixedSize(true)
+        // * Submit the list to the adapter.
+        storyAdapter.submitList(storyList)
     }
 }
