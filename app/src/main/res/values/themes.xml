@@ -35,6 +35,11 @@
 
     <style name="StoryBody" parent="TextAppearance.MaterialComponents.Body1" />
 
+    <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorControlNormal">@color/light_onPrimary</item>
+        <item name="colorControlHighlight">@color/light_onPrimary</item>
+    </style>
+
     <style name="ToolbarTitleStyle" parent="@android:style/TextAppearance.DeviceDefault.Widget.ActionBar.Title">
         <item name="android:textColor">@color/light_onPrimary</item>
         <item name="android:textSize">20sp</item>
