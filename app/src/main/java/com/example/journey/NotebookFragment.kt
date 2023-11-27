@@ -1,59 +1,43 @@
 package com.example.journey
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import com.example.journey.adapter.StoryAdapter
+import com.example.journey.data.StoriesData
+import com.example.journey.databinding.FragmentNotebookBinding
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [NotebookFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class NotebookFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var binding: FragmentNotebookBinding
+    private lateinit var storyAdapter: StoryAdapter
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_notebook, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment NotebookFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            NotebookFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding = FragmentNotebookBinding.bind(view)
+
+        // * Set the content from the binding layout and not from the activity_main.xml
+
+        // Initialize data.
+        val storyList = StoriesData.getStoriesData()
+
+        // * Set the adapter on the RecyclerView.
+        storyAdapter = StoryAdapter { story ->
+            Toast.makeText(context, getString(story.titleResourceId), Toast.LENGTH_SHORT).show()
+        }
+        binding.recyclerView.adapter = storyAdapter
+
+        // * Submit the list to the adapter.
+        storyAdapter.submitList(storyList)
     }
 }
