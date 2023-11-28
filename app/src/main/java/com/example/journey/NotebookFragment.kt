@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.journey.adapter.StoryAdapter
 import com.example.journey.data.StoriesData
 import com.example.journey.databinding.FragmentNotebookBinding
@@ -34,6 +35,9 @@ class NotebookFragment : Fragment() {
         // * Set the adapter on the RecyclerView.
         storyAdapter = StoryAdapter { story ->
             Toast.makeText(context, getString(story.titleResourceId), Toast.LENGTH_SHORT).show()
+            // Navigate to the details screen. (not yet with the selected story)
+            val action = NotebookFragmentDirections.actionNotebookFragmentToDetailsFragment()
+            this.findNavController().navigate(action)
         }
         binding.recyclerView.adapter = storyAdapter
 
