@@ -19,26 +19,30 @@
             android:adjustViewBounds="true"
             android:contentDescription="@null"
             android:scaleType="centerCrop"
-            app:layout_constraintBottom_toTopOf="@+id/storyTitleDetail"
+            android:src="@drawable/img_japan"
+            app:layout_constraintBottom_toTopOf="@+id/storySubtitleDetail"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@drawable/img_japan" />
 
         <TextView
-            android:id="@+id/titleDetail"
+            android:id="@+id/storyTitleDetail"
             style="@style/StoryTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="8dp"
             android:background="@drawable/rounded_semi_transparent_background"
             android:padding="6dp"
+            android:text="@string/title_placeholder"
             android:theme="@style/ThemeOverlay.AppCompat.Dark"
             app:layout_constraintBottom_toBottomOf="@+id/storyImageDetail"
             app:layout_constraintStart_toStartOf="parent"
             tools:text="@string/title_placeholder" />
 
         <TextView
-            android:id="@+id/storyTitleDetail"
+            android:id="@+id/storySubtitleDetail"
             style="@style/StoryDetailText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -57,7 +61,7 @@
             android:text="@string/story_detail_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/storyTitleDetail" />
+            app:layout_constraintTop_toBottomOf="@+id/storySubtitleDetail" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

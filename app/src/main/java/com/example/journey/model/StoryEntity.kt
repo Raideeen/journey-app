@@ -2,7 +2,7 @@ package com.example.journey.model
 
 import com.example.journey.R
 
-data class Story(
+data class StoryEntity(
     val id: Int,
     val titleResourceId: Int,
     val subTitleResourceId: Int,

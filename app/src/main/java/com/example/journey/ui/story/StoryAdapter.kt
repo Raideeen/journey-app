@@ -1,4 +1,4 @@
-package com.example.journey.adapter
+package com.example.journey.ui.story
 
 
 import android.content.Context
@@ -9,21 +9,21 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.journey.databinding.NotebookListItemBinding
-import com.example.journey.model.Story
+import com.example.journey.model.StoryEntity
 
-class StoryAdapter(private val onItemClicked: (Story) -> Unit) :
-    ListAdapter<Story, StoryAdapter.StoryViewHolder>(DiffCallback) {
+class StoryAdapter(private val onItemClicked: (StoryEntity) -> Unit) :
+    ListAdapter<StoryEntity, StoryAdapter.StoryViewHolder>(DiffCallback) {
 
     private lateinit var context: Context
 
     class StoryViewHolder(private var binding: NotebookListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(story: Story, context: Context) {
-            binding.title.text = context.getString(story.titleResourceId)
-            binding.subTitle.text = context.getString(story.subTitleResourceId)
-            binding.description.text = context.getString(story.storyDetails)
-            binding.travelImage.load(story.imageResourceId)
+        fun bind(storyEntity: StoryEntity, context: Context) {
+            binding.title.text = context.getString(storyEntity.titleResourceId)
+            binding.subTitle.text = context.getString(storyEntity.subTitleResourceId)
+            binding.description.text = context.getString(storyEntity.storyDetails)
+            binding.travelImage.load(storyEntity.imageResourceId)
         }
     }
 
@@ -44,12 +44,13 @@ class StoryAdapter(private val onItemClicked: (Story) -> Unit) :
     }
 
     companion object {
-        private val DiffCallback = object : DiffUtil.ItemCallback<Story>() {
-            override fun areItemsTheSame(oldItem: Story, newItem: Story): Boolean {
-                return oldItem.id == newItem.id // Adjust this based on your model
+        private val DiffCallback = object : DiffUtil.ItemCallback<StoryEntity>() {
+            override fun areItemsTheSame(oldItem: StoryEntity, newItem: StoryEntity): Boolean {
+                return oldItem.id == newItem.id ||
+                        oldItem.titleResourceId == newItem.titleResourceId
             }
 
-            override fun areContentsTheSame(oldItem: Story, newItem: Story): Boolean {
+            override fun areContentsTheSame(oldItem: StoryEntity, newItem: StoryEntity): Boolean {
                 return oldItem == newItem
             }
         }
