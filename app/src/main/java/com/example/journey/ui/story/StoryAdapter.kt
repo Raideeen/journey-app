@@ -22,7 +22,8 @@ class StoryAdapter(private val onItemClicked: (StoryEntity) -> Unit) :
         fun bind(storyEntity: StoryEntity, context: Context) {
             binding.title.text = context.getString(storyEntity.titleResourceId)
             binding.subTitle.text = context.getString(storyEntity.subTitleResourceId)
-            binding.description.text = context.getString(storyEntity.storyDetails)
+            binding.description.text = storyEntity.storyDetails
+//            binding.description.text = context.getString(storyEntity.storyDetails)
             binding.travelImage.load(storyEntity.imageResourceId)
         }
     }

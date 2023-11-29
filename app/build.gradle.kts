@@ -64,4 +64,13 @@ dependencies {
 
     // Rounded Image View
     implementation("com.makeramen:roundedimageview:2.3.0")
+
+    // Markdown support with Markwon
+    val markwonVersion = "4.6.2"
+
+    implementation("io.noties.markwon:core:$markwonVersion")
+    implementation("io.noties.markwon:editor:$markwonVersion")
+    implementation("io.noties.markwon:ext-strikethrough:$markwonVersion")
+    implementation("io.noties.markwon:ext-tables:$markwonVersion")
+    implementation("io.noties.markwon:image:$markwonVersion")
 }
