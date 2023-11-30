@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.navigation.findNavController
 import com.example.journey.data.UsersData
 import com.example.journey.databinding.FragmentLoginBinding
 import com.example.journey.databinding.FragmentProfilBinding
@@ -40,6 +41,10 @@ class ProfilFragment : Fragment() {
         }
         binding.ChangePassword.setOnClickListener {
             user.newPassword = binding.newpassword.text.toString()
+        }
+
+        binding.btnML.setOnClickListener{
+            //it.findNavController().navigate(R.id.action_profilFragment_to_mentionsLegalesFragment)
         }
 
     }

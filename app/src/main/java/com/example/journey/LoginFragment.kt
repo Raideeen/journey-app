@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.navigation.findNavController
 import com.example.journey.R
 import com.example.journey.databinding.FragmentLoginBinding
 import com.example.journey.data.UsersData
@@ -33,6 +34,7 @@ class LoginFragment : Fragment() {
             {
                 Toast.makeText(activity, "login successful", Toast.LENGTH_SHORT).show()
                 // navigation jusqu'au fragment home
+                it.findNavController().navigate(R.id.action_loginFragment_to_notebookFragment)
             }
             else
             {
