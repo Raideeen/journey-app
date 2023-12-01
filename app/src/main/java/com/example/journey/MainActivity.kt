@@ -88,6 +88,8 @@ class MainActivity : AppCompatActivity() {
                 // Additional cases can be added for other destinations.
             }
         }
+
+
     }
 
     override fun onSupportNavigateUp(): Boolean {

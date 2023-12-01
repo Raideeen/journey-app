@@ -29,4 +29,13 @@ class StoryViewModel : ViewModel() {
     fun addStory(story: StoryEntity) {
         _storiesData.add(story)
     }
+
+    fun updateStoryDetail(newDetail: String) {
+        // Update the current story's detail
+        val updatedStory = currentStory.value?.copy(storyDetails = newDetail)
+        updateCurrentStory(updatedStory!!)
+
+        // Save the updated story to your data source
+        // This will depend on how you're storing your data
+    }
 }
