@@ -31,10 +31,14 @@ class StoryNotebookFragment : Fragment(R.layout.fragment_notebook) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // * Set the content from the binding layout and not from the activity_main.xml
         binding = FragmentNotebookBinding.bind(view)
 
-        // * Set the content from the binding layout and not from the activity_main.xml
-
+        binding.addStoryButton.setOnClickListener {
+            Log.d(TAG, "Navigation to NewStoryFragment")
+            val action = StoryNotebookFragmentDirections.actionNotebookFragmentToNewStoryFragment()
+            this.findNavController().navigate(action)
+        }
         // Initialize data.
         val storyList = StoriesData.getStoriesData()
 

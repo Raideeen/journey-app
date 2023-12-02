@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_notebookFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_notebookFragment_to_newStoryFragment"
+            app:destination="@id/newStoryFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailsFragment"
@@ -31,4 +34,9 @@
         android:name="com.example.journey.ui.users.UserProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/newStoryFragment"
+        android:name="com.example.journey.ui.story.NewStoryFragment"
+        android:label="fragment_new_story"
+        tools:layout="@layout/fragment_new_story" />
 </navigation>

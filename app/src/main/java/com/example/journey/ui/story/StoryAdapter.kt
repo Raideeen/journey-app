@@ -20,10 +20,10 @@ class StoryAdapter(private val onItemClicked: (StoryEntity) -> Unit) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(storyEntity: StoryEntity, context: Context) {
+
             binding.title.text = context.getString(storyEntity.titleResourceId)
             binding.subTitle.text = context.getString(storyEntity.subTitleResourceId)
-            binding.description.text = storyEntity.storyDetails
-//            binding.description.text = context.getString(storyEntity.storyDetails)
+            binding.description.text = storyEntity.storyDetails.toString()
             binding.travelImage.load(storyEntity.imageResourceId)
         }
     }
