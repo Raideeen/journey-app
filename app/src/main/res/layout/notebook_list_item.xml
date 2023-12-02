@@ -20,6 +20,7 @@
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:contentDescription="TODO"
+            android:scaleType="centerCrop"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_launcher_background"
@@ -42,7 +43,7 @@
             tools:text="@string/title_placeholder" />
 
         <TextView
-            android:id="@+id/subTitle"
+            android:id="@+id/subtitle"
             style="@style/StorySubTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -71,7 +72,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/travelImage"
-            app:layout_constraintTop_toBottomOf="@+id/subTitle" />
+            app:layout_constraintTop_toBottomOf="@+id/subtitle" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

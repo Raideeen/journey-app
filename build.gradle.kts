@@ -2,6 +2,8 @@
 plugins {
     id("com.android.application") version "8.1.4" apply false
     id("org.jetbrains.kotlin.android") version "1.9.10" apply false
+    // Add KSP Gradle plugin for Room
+    id("com.google.devtools.ksp") version "1.9.21-1.0.15" apply false
 }
 
 // Add the Safe Args Gradle plugin from the Navigation component

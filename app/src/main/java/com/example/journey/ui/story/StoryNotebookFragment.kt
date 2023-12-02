@@ -1,66 +1,70 @@
 package com.example.journey.ui.story
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.example.journey.R
-import com.example.journey.data.StoriesData
 import com.example.journey.databinding.FragmentNotebookBinding
 
-private const val TAG = "StoryNotebookFragment"
+class StoryNotebookFragment : Fragment() {
 
-class StoryNotebookFragment : Fragment(R.layout.fragment_notebook) {
-    private lateinit var binding: FragmentNotebookBinding
+    private var _binding: FragmentNotebookBinding? = null
+    private val binding get() = _binding!!
+
     private lateinit var storyAdapter: StoryAdapter
 
-    private val storyViewModel: StoryViewModel by activityViewModels()
+    private val storyViewModel: StoryViewModel by viewModels { StoryViewModel.Factory }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_notebook, container, false)
+    ): View {
+        _binding = FragmentNotebookBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // * Set the content from the binding layout and not from the activity_main.xml
-        binding = FragmentNotebookBinding.bind(view)
+        setupRecyclerView()
+        setupAddStoryButton()
 
-        binding.addStoryButton.setOnClickListener {
-            Log.d(TAG, "Navigation to NewStoryFragment")
-            val action = StoryNotebookFragmentDirections.actionNotebookFragmentToNewStoryFragment()
-            this.findNavController().navigate(action)
+        // Observing the list of stories from the ViewModel
+        storyViewModel.allStories.observe(viewLifecycleOwner) { stories ->
+            storyAdapter.submitList(stories)
         }
-        // Initialize data.
-        val storyList = StoriesData.getStoriesData()
+    }
 
-        // * Set the adapter on the RecyclerView.
+    private fun setupRecyclerView() {
         storyAdapter = StoryAdapter { story ->
-            // Update the user selected story as the current story in the shared viewmodel
+            // Handle story item click
             storyViewModel.updateCurrentStory(story)
-
-            Log.d(TAG, "onViewCreated: ${story.titleResourceId}")
-
-            Toast.makeText(context, getString(story.titleResourceId), Toast.LENGTH_SHORT).show()
-
-            // Navigate to the details screen. (not yet with the selected story)
-            Log.d(TAG, "Navigation to DetailsFragment")
-            val action =
-                StoryNotebookFragmentDirections.actionNotebookFragmentToDetailsFragment()
-            this.findNavController().navigate(action)
+            navigateToStoryDetails()
         }
         binding.recyclerView.adapter = storyAdapter
+    }
 
-        // * Submit the list to the adapter.
-        storyAdapter.submitList(storyList)
-        Log.d(TAG, "Updated UI")
+    private fun setupAddStoryButton() {
+        binding.addStoryButton.setOnClickListener {
+            navigateToNewStoryFragment()
+        }
+    }
+
+    private fun navigateToStoryDetails() {
+        val action = StoryNotebookFragmentDirections.actionNotebookFragmentToDetailsFragment()
+        findNavController().navigate(action)
+    }
+
+    private fun navigateToNewStoryFragment() {
+        val action = StoryNotebookFragmentDirections.actionNotebookFragmentToNewStoryFragment()
+        findNavController().navigate(action)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

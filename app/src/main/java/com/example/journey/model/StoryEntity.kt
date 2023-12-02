@@ -1,12 +1,13 @@
 package com.example.journey.model
 
-import com.example.journey.R
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
+@Entity(tableName = "story_table")
 data class StoryEntity(
-    val id: Int,
-    val titleResourceId: Int,
-    val subTitleResourceId: Int,
-    val imageResourceId: Int,
-    val storyImageBanner: Int,
-    val storyDetails: Int = R.string.story_detail_text
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    val title: String,
+    val subtitle: String,
+    val imageUri: String, // Changed to store image URI as String
+    var storyDetails: String
 )

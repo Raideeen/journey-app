@@ -21,10 +21,10 @@ class StoryAdapter(private val onItemClicked: (StoryEntity) -> Unit) :
 
         fun bind(storyEntity: StoryEntity, context: Context) {
 
-            binding.title.text = context.getString(storyEntity.titleResourceId)
-            binding.subTitle.text = context.getString(storyEntity.subTitleResourceId)
-            binding.description.text = storyEntity.storyDetails.toString()
-            binding.travelImage.load(storyEntity.imageResourceId)
+            binding.title.text = storyEntity.title
+            binding.subtitle.text = storyEntity.subtitle
+            binding.description.text = storyEntity.storyDetails
+            binding.travelImage.load(storyEntity.imageUri)
         }
     }
 
@@ -48,7 +48,7 @@ class StoryAdapter(private val onItemClicked: (StoryEntity) -> Unit) :
         private val DiffCallback = object : DiffUtil.ItemCallback<StoryEntity>() {
             override fun areItemsTheSame(oldItem: StoryEntity, newItem: StoryEntity): Boolean {
                 return oldItem.id == newItem.id ||
-                        oldItem.titleResourceId == newItem.titleResourceId
+                        oldItem.title == newItem.title
             }
 
             override fun areContentsTheSame(oldItem: StoryEntity, newItem: StoryEntity): Boolean {

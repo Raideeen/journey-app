@@ -3,6 +3,7 @@ package com.example.journey.ui.story
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
@@ -13,6 +14,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.example.journey.R
 import com.example.journey.model.StoryEntity
 
@@ -26,16 +28,22 @@ class NewStoryFragment : Fragment(R.layout.fragment_new_story) {
 
     private lateinit var imagePickerLauncher: ActivityResultLauncher<Intent>
 
-    private val storyViewModel: StoryViewModel by activityViewModels()
+    private val storyViewModel: StoryViewModel by viewModels { StoryViewModel.Factory }
+
+    // ? This is the image uri that will be saved in the database. It's already present in the
+    // ? user mobile phone and we just have to retrieve it.
+    private var selectedImageUri: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // ? The user can select an image from the gallery and we need to retrieve it. We use
+        // ? implicit intent to do that so the user can choose the app he wants to use to select.
         imagePickerLauncher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) { result ->
             if (result.resultCode == Activity.RESULT_OK && result.data != null) {
-                val selectedImage = result.data?.data
-                storyImageView.setImageURI(selectedImage)
+                selectedImageUri = result.data?.data
+                storyImageView.setImageURI(selectedImageUri)
                 storyImageView.visibility = View.VISIBLE
             }
         }
@@ -58,20 +66,16 @@ class NewStoryFragment : Fragment(R.layout.fragment_new_story) {
         saveButton.setOnClickListener {
             val title = titleEditText.text.toString()
             val subtitle = subtitleEditText.text.toString()
-            val image = storyImageView.drawable.toString()
+            val imageUri = selectedImageUri.toString()
 
-            /*
-            // Create a new StoryEntity instance
             val newStory = StoryEntity(
-                titleResourceId = R.string.story_title,
-                subTitleResourceId = R.string.story_subtitle,
-                storyDetails = R.string.story_details,
-                imageResourceId = R.drawable.story_image
+                title = title,
+                subtitle = subtitle,
+                imageUri = imageUri,
+                storyDetails = "Some details"
             )
 
-            // Add the new story to the StoryViewModel
-            storyViewModel.addStory(newStory)
-            */
+            storyViewModel.insert(newStory)
         }
     }
 }

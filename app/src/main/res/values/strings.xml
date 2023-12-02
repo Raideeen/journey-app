@@ -6,10 +6,7 @@
     <string name="title_placeholder">Title</string>
     <string name="subtitle_placeholder">Subtitle</string>
     <string name="story_description_placeholder">Trip with the boys to see the Track-mania Cup 🏎️</string>
-    <string name="story_detail_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        Praesent ultrices congue rutrum. Phasellus elementum ipsum ac convallis aliquam. Suspendisse
-        eleifend eros a enim faucibus mollis. Nunc placerat, est vitae vestibulum blandit, dolor
-        diam fringilla tellus, eu euismod mauris neque at neque.</string>
+    <string name="story_detail_text">Enter your text.</string>
 
     <!-- String used to populate some story cards -->
     <string name="china_title">The Journey of a Thousand Miles</string>

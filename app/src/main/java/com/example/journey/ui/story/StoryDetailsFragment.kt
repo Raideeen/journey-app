@@ -9,6 +9,7 @@ import android.view.View
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import coil.load
 import com.example.journey.R
@@ -18,7 +19,7 @@ private const val TAG = "StoryDetailsFragment"
 
 class StoryDetailsFragment : Fragment(R.layout.fragment_details) {
 
-    private val storyViewModel: StoryViewModel by activityViewModels()
+    private val storyViewModel: StoryViewModel by viewModels { StoryViewModel.Factory }
 
     private var isEditMode = false
 
@@ -32,11 +33,10 @@ class StoryDetailsFragment : Fragment(R.layout.fragment_details) {
 
         // ? Attach an observer on the current story to update the UI when the data changes.
         storyViewModel.currentStory.observe(viewLifecycleOwner) { story ->
-            //TODO: Update the UI
-            binding.storyTitleDetail.text = getString(story.titleResourceId)
-            binding.storySubtitleDetail.text = getString(story.subTitleResourceId)
+            binding.storyTitleDetail.text = story.title
+            binding.storySubtitleDetail.text = story.subtitle
             binding.storyDetail.text = story.storyDetails
-            binding.storyImageDetail.load(story.imageResourceId)
+            binding.storyImageDetail.load(story.imageUri)
         }
 
         // ? Create a MenuProvider instance for the edit/read menu

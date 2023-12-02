@@ -3,6 +3,8 @@ plugins {
     id("org.jetbrains.kotlin.android")
     // Add the Safe Args Gradle plugin from the Navigation component
     id("androidx.navigation.safeargs")
+    // Add ksp plugin for Room
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -76,4 +78,14 @@ dependencies {
 
     // Picasso library for loading images
     implementation("com.squareup.picasso:picasso:2.71828")
+
+    // Room database
+    val room_version = "2.6.1"
+
+    implementation("androidx.room:room-runtime:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
+    ksp("androidx.room:room-compiler:$room_version")
+
+    // Coroutines
+    implementation("androidx.room:room-ktx:$room_version")
 }
