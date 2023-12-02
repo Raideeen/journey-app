@@ -7,9 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.journey.R
+import com.example.journey.StoryApplication
 import com.example.journey.data.StoriesData
 import com.example.journey.databinding.FragmentNotebookBinding
 
@@ -19,7 +22,10 @@ class StoryNotebookFragment : Fragment(R.layout.fragment_notebook) {
     private lateinit var binding: FragmentNotebookBinding
     private lateinit var storyAdapter: StoryAdapter
 
-    private val storyViewModel: StoryViewModel by activityViewModels()
+    //private val storyViewModel: StoryViewModel by activityViewModels()
+    private val storyViewModel: StoryViewModel by viewModels {
+        StoryViewModelFactory((activity?.application as StoryApplication).repository)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -29,7 +35,7 @@ class StoryNotebookFragment : Fragment(R.layout.fragment_notebook) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        /*super.onViewCreated(view, savedInstanceState)
 
         binding = FragmentNotebookBinding.bind(view)
 
@@ -43,9 +49,9 @@ class StoryNotebookFragment : Fragment(R.layout.fragment_notebook) {
             // Update the user selected story as the current story in the shared viewmodel
             storyViewModel.updateCurrentStory(story)
 
-            Log.d(TAG, "onViewCreated: ${story.titleResourceId}")
+            Log.d(TAG, "onViewCreated: ${story.title}")
 
-            Toast.makeText(context, getString(story.titleResourceId), Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, story.title, Toast.LENGTH_SHORT).show()
 
             // Navigate to the details screen. (not yet with the selected story)
             Log.d(TAG, "Navigation to DetailsFragment")
@@ -53,9 +59,48 @@ class StoryNotebookFragment : Fragment(R.layout.fragment_notebook) {
                 StoryNotebookFragmentDirections.actionNotebookFragmentToDetailsFragment()
             this.findNavController().navigate(action)
         }
+
+
+
         binding.recyclerView.adapter = storyAdapter
 
         // * Submit the list to the adapter.
+        storyAdapter.submitList(storyList)
+        Log.d(TAG, "Updated UI")*/
+
+        super.onViewCreated(view, savedInstanceState)
+
+        binding = FragmentNotebookBinding.bind(view)
+
+        // Initialize data.
+        val storyList = StoriesData.getStoriesData()
+
+        // Set up RecyclerView adapter
+        storyAdapter = StoryAdapter { story ->
+            storyViewModel.updateCurrentStory(story)
+            Toast.makeText(context, story.title, Toast.LENGTH_SHORT).show()
+
+            // Navigate to the details screen with the selected story
+            val action = StoryNotebookFragmentDirections.actionNotebookFragmentToDetailsFragment()
+            this.findNavController().navigate(action)
+        }
+
+        binding.recyclerView.adapter = storyAdapter
+
+        // Observe the LiveData in the ViewModel
+        storyViewModel.allStories.observe(viewLifecycleOwner, Observer { stories ->
+            // Update your UI with the new data (e.g., update RecyclerView adapter)
+            if (stories != null) {
+                storyAdapter.submitList(stories)
+                Log.d(TAG, "Updated UI with new data")
+            } else {
+                Log.e(TAG, "Received null list of stories")
+            }
+            storyAdapter.submitList(stories)
+            Log.d(TAG, "Updated UI with new data")
+        })
+
+        // Submit the initial list to the adapter
         storyAdapter.submitList(storyList)
         Log.d(TAG, "Updated UI")
     }

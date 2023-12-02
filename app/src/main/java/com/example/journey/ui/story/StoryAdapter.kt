@@ -3,26 +3,28 @@ package com.example.journey.ui.story
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
-import com.example.journey.databinding.NotebookListItemBinding
 import com.example.journey.model.StoryEntity
+import com.example.journey.R
 
 class StoryAdapter(private val onItemClicked: (StoryEntity) -> Unit) :
     ListAdapter<StoryEntity, StoryAdapter.StoryViewHolder>(DiffCallback) {
 
     private lateinit var context: Context
 
-    class StoryViewHolder(private var binding: NotebookListItemBinding) :
+    // Backup
+    /*class StoryViewHolder(private var binding: NotebookListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(storyEntity: StoryEntity, context: Context) {
-            binding.title.text = context.getString(storyEntity.titleResourceId)
-            binding.subTitle.text = context.getString(storyEntity.subTitleResourceId)
-            binding.description.text = context.getString(storyEntity.storyDetails)
+            binding.title.text = storyEntity.title
+            binding.subTitle.text = storyEntity.subTitle
+            binding.description.text = storyEntity.storyDetails
             binding.travelImage.load(storyEntity.imageResourceId)
         }
     }
@@ -41,13 +43,38 @@ class StoryAdapter(private val onItemClicked: (StoryEntity) -> Unit) :
             onItemClicked(currentStory)
         }
         holder.bind(currentStory, context)
+    }*/
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StoryViewHolder {
+        return StoryViewHolder.create(parent)
+    }
+
+    override fun onBindViewHolder(holder: StoryViewHolder, position: Int) {
+        val current = getItem(position)
+        holder.bind(current.storyDetails)
+    }
+
+    class StoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val storyEntityItemView: TextView = itemView.findViewById(R.id.textView)
+
+        fun bind(text: String?) {
+            storyEntityItemView.text = text
+        }
+
+        companion object {
+            fun create(parent: ViewGroup): StoryViewHolder {
+                val view: View = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.fragment_notebook, parent, false)
+                return StoryViewHolder(view)
+            }
+        }
     }
 
     companion object {
         private val DiffCallback = object : DiffUtil.ItemCallback<StoryEntity>() {
             override fun areItemsTheSame(oldItem: StoryEntity, newItem: StoryEntity): Boolean {
                 return oldItem.id == newItem.id ||
-                        oldItem.titleResourceId == newItem.titleResourceId
+                        oldItem.title == newItem.title
             }
 
             override fun areContentsTheSame(oldItem: StoryEntity, newItem: StoryEntity): Boolean {

@@ -25,9 +25,9 @@ class StoryDetailsFragment : Fragment(R.layout.fragment_details) {
         // Attach an observer on the current story to update the UI when the data changes.
         storyViewModel.currentStory.observe(viewLifecycleOwner) { story ->
             //TODO: Update the UI
-            binding.storyTitleDetail.text = getString(story.titleResourceId)
-            binding.storySubtitleDetail.text = getString(story.subTitleResourceId)
-            binding.storyDetail.text = getString(story.storyDetails)
+            binding.storyTitleDetail.text = story.title
+            binding.storySubtitleDetail.text = story.subTitle
+            binding.storyDetail.text = story.storyDetails
             binding.storyImageDetail.load(story.imageResourceId)
         }
     }

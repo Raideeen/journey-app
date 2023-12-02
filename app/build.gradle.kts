@@ -64,4 +64,11 @@ dependencies {
 
     // Rounded Image View
     implementation("com.makeramen:roundedimageview:2.3.0")
+
+    // Database
+    val room_version = "2.5.0"
+
+    implementation("androidx.room:room-runtime:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
+
 }
