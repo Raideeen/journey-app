@@ -2,7 +2,7 @@ package com.example.journey.ui.story
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Bitmap
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -12,12 +12,13 @@ import android.widget.EditText
 import android.widget.ImageView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.room.util.copy
+import androidx.navigation.fragment.findNavController
 import com.example.journey.R
 import com.example.journey.model.StoryEntity
+import com.google.android.material.snackbar.Snackbar
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
@@ -42,6 +43,27 @@ class NewStoryFragment : Fragment(R.layout.fragment_new_story) {
 
     // URI of the selected image
     private var selectedImageUri: Uri? = null
+
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            // Permission is granted, open the gallery
+            openImagePicker()
+        } else {
+            // Handle the denial of permission
+            Snackbar.make(
+                requireView(),
+                "Permission denied",
+                Snackbar.LENGTH_SHORT
+            ).show()
+        }
+    }
+
+    private fun openImagePicker() {
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        imagePickerLauncher.launch(intent)
+    }
 
     /**
      * Called when the fragment is created.
@@ -76,15 +98,49 @@ class NewStoryFragment : Fragment(R.layout.fragment_new_story) {
 
         // Set click listener for the select image button
         selectImageButton.setOnClickListener {
-            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            imagePickerLauncher.launch(intent)
+            when {
+                ContextCompat.checkSelfPermission(
+                    requireContext(),
+                    android.Manifest.permission.READ_EXTERNAL_STORAGE
+                ) == PackageManager.PERMISSION_GRANTED -> {
+                    // Permission is granted, open the gallery
+                    openImagePicker()
+                }
+
+                shouldShowRequestPermissionRationale(android.Manifest.permission.READ_EXTERNAL_STORAGE) -> {
+                    // Show an explanation to the user *asynchronously*
+                    Snackbar.make(
+                        requireView(),
+                        "Permission needed for selecting an image",
+                        Snackbar.LENGTH_SHORT
+                    ).setAction("OK") {
+                        requestPermissionLauncher.launch(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+                    }.show()
+                }
+
+                else -> {
+                    // No explanation needed, we can request the permission.
+                    requestPermissionLauncher.launch(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+                }
+            }
         }
 
         // Set click listener for the save button
         saveButton.setOnClickListener {
             val title = titleEditText.text.toString()
             val subtitle = subtitleEditText.text.toString()
+
+            if (title.isEmpty() || subtitle.isEmpty() || selectedImageUri == null) {
+                Snackbar.make(
+                    requireView(),
+                    "Please fill all the fields",
+                    Snackbar.LENGTH_SHORT
+                ).show()
+                return@setOnClickListener
+            }
+
             val imageUri = copyImageToInternalStorage(selectedImageUri!!).toString()
+
 
             // Create a new story and insert it into the database
             val newStory = StoryEntity(
@@ -95,6 +151,17 @@ class NewStoryFragment : Fragment(R.layout.fragment_new_story) {
             )
 
             storyViewModel.insert(newStory)
+
+            // Navigate back to the notebook
+            val action = NewStoryFragmentDirections.actionNewStoryFragmentToNotebookFragment()
+            findNavController().navigate(action)
+
+            // Snackbar to show the user that the story was saved
+            Snackbar.make(
+                requireView(),
+                "Story saved ✅",
+                Snackbar.LENGTH_SHORT
+            ).show()
         }
     }
 
@@ -105,8 +172,10 @@ class NewStoryFragment : Fragment(R.layout.fragment_new_story) {
      * @return The URI of the image in the internal storage.
      */
     private fun copyImageToInternalStorage(contentUri: Uri): Uri {
-        val inputStream: InputStream = requireContext().contentResolver.openInputStream(contentUri)!!
-        val newFile = File(requireContext().filesDir, "JourneyImages/${System.currentTimeMillis()}.jpg")
+        val inputStream: InputStream =
+            requireContext().contentResolver.openInputStream(contentUri)!!
+        val newFile =
+            File(requireContext().filesDir, "JourneyImages/${System.currentTimeMillis()}.jpg")
 
         // Create a new file in the internal storage and copy the image from the gallery to the
         // internal storage.

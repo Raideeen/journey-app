@@ -38,5 +38,9 @@
         android:id="@+id/newStoryFragment"
         android:name="com.example.journey.ui.story.NewStoryFragment"
         android:label="fragment_new_story"
-        tools:layout="@layout/fragment_new_story" />
+        tools:layout="@layout/fragment_new_story" >
+        <action
+            android:id="@+id/action_newStoryFragment_to_notebookFragment"
+            app:destination="@id/notebookFragment" />
+    </fragment>
 </navigation>
