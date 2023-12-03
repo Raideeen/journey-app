@@ -1,6 +1,5 @@
 package com.example.journey.ui.story
 
-import android.text.Spannable.Factory
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

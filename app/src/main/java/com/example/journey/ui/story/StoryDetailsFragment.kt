@@ -19,7 +19,7 @@ private const val TAG = "StoryDetailsFragment"
 
 class StoryDetailsFragment : Fragment(R.layout.fragment_details) {
 
-    private val storyViewModel: StoryViewModel by viewModels { StoryViewModel.Factory }
+    private val storyViewModel: StoryViewModel by activityViewModels { StoryViewModel.Factory }
 
     private var isEditMode = false
 
