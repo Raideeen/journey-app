@@ -10,7 +10,6 @@
     app:strokeColor="@android:color/background_light"
     app:strokeWidth="1dp">
 
-    <!-- TODO: Finish this view and create the recycler view -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

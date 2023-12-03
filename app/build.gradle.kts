@@ -88,4 +88,7 @@ dependencies {
 
     // Coroutines
     implementation("androidx.room:room-ktx:$room_version")
+
+    // Material Design
+    implementation("com.google.android.material:material:1.10.0")
 }

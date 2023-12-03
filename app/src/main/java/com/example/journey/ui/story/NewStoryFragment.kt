@@ -10,9 +10,11 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -32,8 +34,11 @@ class NewStoryFragment : Fragment(R.layout.fragment_new_story) {
     private lateinit var titleEditText: EditText
     private lateinit var subtitleEditText: EditText
     private lateinit var selectImageButton: Button
-    private lateinit var storyImageView: ImageView
     private lateinit var saveButton: Button
+
+    private lateinit var previewTitle: TextView
+    private lateinit var previewSubtitle: TextView
+    private lateinit var previewImage: ImageView
 
     // Launcher for picking an image from the gallery
     private lateinit var imagePickerLauncher: ActivityResultLauncher<Intent>
@@ -77,8 +82,8 @@ class NewStoryFragment : Fragment(R.layout.fragment_new_story) {
         ) { result ->
             if (result.resultCode == Activity.RESULT_OK && result.data != null) {
                 selectedImageUri = result.data?.data
-                storyImageView.setImageURI(selectedImageUri)
-                storyImageView.visibility = View.VISIBLE
+                previewImage.setImageURI(selectedImageUri)
+                previewImage.visibility = View.VISIBLE
             }
         }
     }
@@ -93,8 +98,21 @@ class NewStoryFragment : Fragment(R.layout.fragment_new_story) {
         titleEditText = view.findViewById(R.id.titleEditText)
         subtitleEditText = view.findViewById(R.id.subtitleEditText)
         selectImageButton = view.findViewById(R.id.selectImageButton)
-        storyImageView = view.findViewById(R.id.storyImageView)
         saveButton = view.findViewById(R.id.saveButton)
+
+        previewTitle = view.findViewById(R.id.previewTitle)
+        previewSubtitle = view.findViewById(R.id.previewSubtitle)
+        previewImage = view.findViewById(R.id.previewImage)
+
+        // Set up text change listeners for the title and subtitle EditTexts
+        titleEditText.addTextChangedListener {
+            previewTitle.text = it.toString()
+        }
+
+        subtitleEditText.addTextChangedListener {
+            previewSubtitle.text = it.toString()
+        }
+
 
         // Set click listener for the select image button
         selectImageButton.setOnClickListener {
