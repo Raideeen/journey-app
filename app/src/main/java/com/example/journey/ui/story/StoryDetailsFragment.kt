@@ -1,11 +1,11 @@
 package com.example.journey.ui.story
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -14,56 +14,42 @@ import coil.load
 import com.example.journey.R
 import com.example.journey.databinding.FragmentDetailsBinding
 import io.noties.markwon.Markwon
-import io.noties.markwon.editor.MarkwonEditor
-import io.noties.markwon.editor.MarkwonEditorTextWatcher
-import java.util.concurrent.Executors
 
-private const val TAG = "StoryDetailsFragment"
-
+/**
+ * StoryDetailsFragment is a Fragment that displays the details of a story.
+ * It allows the user to switch between read mode and edit mode.
+ * In read mode, the story details are rendered as markdown in a TextView.
+ * In edit mode, the raw markdown text is displayed in an EditText for editing.
+ * The raw markdown text is stored in a LiveData object, so it is observed at all times when the text changes.
+ */
 class StoryDetailsFragment : Fragment(R.layout.fragment_details) {
 
+    // ViewModel for the story
     private val storyViewModel: StoryViewModel by activityViewModels { StoryViewModel.Factory }
 
+    // Flag to indicate whether the fragment is in edit mode
     private var isEditMode = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val binding = FragmentDetailsBinding.bind(view)
 
-        Log.d(
-            TAG, "onViewCreated: ${storyViewModel.currentStory.value}"
-        )
-
         // Create a Markwon instance to render Markdown
         val markwon = Markwon.create(requireContext())
 
-        // Create a MarkwonEditor instance to render Markdown in an EditText
-        val markwonEditor = MarkwonEditor.create(markwon)
-
-        // ? Attach a MarkwonEditorTextWatcher to the EditText to render Markdown
-        binding.storyDetailEdit.addTextChangedListener(
-            MarkwonEditorTextWatcher.withPreRender(
-                markwonEditor,
-                Executors.newCachedThreadPool(),
-                binding.storyDetailEdit
-            )
-        )
-
-        // ? Attach an observer on the current story to update the UI when the data changes.
+        // Observe the current story
         storyViewModel.currentStory.observe(viewLifecycleOwner) { story ->
             binding.storyTitleDetail.text = story.title
             binding.storySubtitleDetail.text = story.subtitle
-            binding.storyDetail.text = story.storyDetails
             binding.storyImageDetail.load(story.imageUri)
 
-            // * Use Markwon to render the Markdown in the story details
-            markwon.setMarkdown(binding.storyDetail, story.storyDetails)
-
-            // * Use Markwon to render the Markdown in the EditText
-            markwonEditor.process(binding.storyDetailEdit.text)
+            // Render markdown in TextView when not in edit mode
+            if (!isEditMode) {
+                markwon.setMarkdown(binding.storyDetail, story.storyDetails)
+            }
         }
 
-        // ? Create a MenuProvider instance for the edit/read menu
+        // Setup menu provider for edit/read toggle
         val menuProvider = object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 // Inflate the menu
@@ -74,28 +60,10 @@ class StoryDetailsFragment : Fragment(R.layout.fragment_details) {
                 // Handle menu item selection
                 return when (menuItem.itemId) {
                     R.id.action_edit_read -> {
-                        isEditMode = !isEditMode
-                        if (isEditMode) {
-                            // * Keep the original text in the EditText so we doesn't lose it
-                            // * when the user switches back to read mode.
-                            binding.storyDetailEdit.setText(binding.storyDetail.text)
-                            binding.storyDetail.visibility = View.GONE
-                            binding.storyDetailEdit.visibility = View.VISIBLE
-                            menuItem.title = "Read"
-                        } else {
-                            val updatedText = binding.storyDetailEdit.text.toString()
-                            binding.storyDetail.text = updatedText
-                            binding.storyDetail.visibility = View.VISIBLE
-                            binding.storyDetailEdit.visibility = View.GONE
-                            menuItem.title = "Edit"
-                            // Update the story in the ViewModel
-                            storyViewModel.updateStoryDetail(updatedText)
-                            // Update the story in the database
-                            storyViewModel.saveStory()
-                        }
+                        // Toggle between edit mode and read mode
+                        toggleEditMode(binding, menuItem, markwon)
                         true
                     }
-
                     else -> false
                 }
             }
@@ -103,5 +71,32 @@ class StoryDetailsFragment : Fragment(R.layout.fragment_details) {
 
         // Add the MenuProvider to the Fragment
         requireActivity().addMenuProvider(menuProvider, viewLifecycleOwner, Lifecycle.State.RESUMED)
+    }
+
+    /**
+     * Toggles between edit mode and read mode.
+     * In edit mode, the EditText is populated with the raw markdown text for editing.
+     * In read mode, the TextView is populated with the rendered markdown text.
+     * @param binding The binding for the fragment's view.
+     * @param menuItem The menu item that was selected.
+     * @param markwon The Markwon instance used to render markdown.
+     */
+    private fun toggleEditMode(binding: FragmentDetailsBinding, menuItem: MenuItem, markwon: Markwon) {
+        isEditMode = !isEditMode
+        if (isEditMode) {
+            // Switch to edit mode and populate EditText with raw markdown
+            binding.storyDetailEdit.setText(storyViewModel.currentStory.value?.storyDetails)
+            binding.storyDetail.visibility = View.GONE
+            binding.storyDetailEdit.visibility = View.VISIBLE
+            menuItem.icon = AppCompatResources.getDrawable(requireContext(), R.drawable.read_icon)
+        } else {
+            // Switch to read mode, update ViewModel and render markdown
+            val updatedText = binding.storyDetailEdit.text.toString()
+            storyViewModel.updateStoryDetail(updatedText)
+            markwon.setMarkdown(binding.storyDetail, updatedText)
+            binding.storyDetail.visibility = View.VISIBLE
+            binding.storyDetailEdit.visibility = View.GONE
+            menuItem.icon = AppCompatResources.getDrawable(requireContext(), R.drawable.edit_icon)
+        }
     }
 }

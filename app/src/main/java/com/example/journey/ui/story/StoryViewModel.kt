@@ -29,9 +29,12 @@ class StoryViewModel(private val repository: StoryRepository) : ViewModel() {
     public val allStories: LiveData<List<StoryEntity>> = repository.allStories
 
     private var _currentStory: MutableLiveData<StoryEntity> = MutableLiveData<StoryEntity>()
+    private val _markdownContent = MutableLiveData<String>()
+
     val currentStory: LiveData<StoryEntity>
         get() = _currentStory
 
+    val markdownContent: LiveData<String> = _markdownContent
 
     fun updateCurrentStory(story: StoryEntity) {
         _currentStory.value = story
@@ -52,9 +55,11 @@ class StoryViewModel(private val repository: StoryRepository) : ViewModel() {
         currentStoryValue?.let { story ->
             val updatedStory = story.copy(storyDetails = newDetail)
             _currentStory.value = updatedStory
-
             // Save the updated story to the database
             updateStoryInDatabase(updatedStory)
+
+            // Update the Markdown content
+            _markdownContent.value = newDetail
         }
     }
 
