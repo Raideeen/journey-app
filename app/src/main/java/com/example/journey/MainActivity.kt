@@ -85,6 +85,7 @@ class MainActivity : AppCompatActivity() {
             when (destination.id) {
                 R.id.notebookFragment -> supportActionBar?.title = "Notebook"
                 R.id.profileFragment -> supportActionBar?.title = "Profile"
+                R.id.detailsFragment -> supportActionBar?.title = "Story Details"
                 // Additional cases can be added for other destinations.
             }
         }

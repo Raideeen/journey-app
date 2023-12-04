@@ -36,4 +36,5 @@
     <string name="subtitle">Subtitle</string>
     <string name="select_image">Select Image</string>
     <string name="save">Save</string>
+    <string name="preview_image_of_the_story">Preview image of the story</string>
 </resources>

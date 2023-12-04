@@ -37,41 +37,41 @@
 
         <TextView
             android:id="@+id/storyTitleDetail"
-            style="@style/StoryTitle"
+            style="@style/StoryTitleWithBackground"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginBottom="8dp"
             android:background="@drawable/rounded_semi_transparent_background"
             android:padding="6dp"
-            android:text="@string/title_placeholder"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark"
             app:layout_constraintBottom_toBottomOf="@+id/storyImageDetail"
             app:layout_constraintStart_toStartOf="parent"
             tools:text="@string/title_placeholder" />
 
         <TextView
             android:id="@+id/storySubtitleDetail"
-            style="@style/StoryDetailText"
+            style="@style/StorySubTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:text="@string/subtitle_placeholder"
             android:textColor="@android:color/darker_gray"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/storyImageDetail" />
+            app:layout_constraintTop_toBottomOf="@+id/storyImageDetail"
+            tools:text="@string/subtitle_placeholder" />
 
         <EditText
             android:id="@+id/storyDetailEdit"
             style="@style/StoryBody"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:autofillHints="Enter your text here"
+            android:inputType="textMultiLine"
             android:padding="8dp"
-            android:text="@string/story_detail_text"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/storySubtitleDetail" />
+            app:layout_constraintTop_toBottomOf="@+id/storySubtitleDetail"
+            tools:ignore="LabelFor" />
 
 
         <TextView
@@ -80,10 +80,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:text="@string/story_detail_text"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/storySubtitleDetail" />
+            app:layout_constraintTop_toBottomOf="@+id/storySubtitleDetail"
+            tools:text="Edit text." />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

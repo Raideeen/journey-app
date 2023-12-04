@@ -61,4 +61,11 @@ class StoryViewModel(private val repository: StoryRepository) : ViewModel() {
     private fun updateStoryInDatabase(story: StoryEntity) = viewModelScope.launch {
         repository.update(story)
     }
+
+    fun saveStory() {
+        val currentStoryValue = _currentStory.value
+        currentStoryValue?.let { story ->
+            updateStoryInDatabase(story)
+        }
+    }
 }

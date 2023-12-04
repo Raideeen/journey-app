@@ -1,4 +1,5 @@
 <resources>
+
     <style name="Theme.Journey" parent="Theme.Material3.Dark.NoActionBar">
         <item name="colorPrimary">@color/dark_primary</item>
         <item name="colorOnPrimary">@color/dark_onPrimary</item>
@@ -26,5 +27,35 @@
         <item name="colorSurfaceInverse">@color/dark_inverseSurface</item>
         <item name="colorOnSurfaceInverse">@color/dark_inverseOnSurface</item>
         <item name="colorPrimaryInverse">@color/dark_inversePrimary</item>
+    </style>
+
+    <!-- Those styles are used in the details fragment -->
+    <style name="StoryTitle" parent="TextAppearance.MaterialComponents.Headline5">
+        <item name="android:textColor">@color/light_onPrimary</item>
+    </style>
+
+    <style name="StoryTitleWithBackground" parent="TextAppearance.MaterialComponents.Headline5">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark</item>
+    </style>
+
+    <style name="StoryDetailText" parent="TextAppearance.MaterialComponents.Headline6" />
+
+    <style name="StorySubTitle" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:textColor">@color/light_onPrimary</item>
+    </style>
+
+    <style name="StoryBody" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorControlNormal">@color/light_onPrimary</item>
+        <item name="colorControlHighlight">@color/light_onPrimary</item>
+    </style>
+
+    <style name="ToolbarTitleStyle" parent="@android:style/TextAppearance.DeviceDefault.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/light_onPrimary</item>
+        <item name="android:textSize">20sp</item>
     </style>
 </resources>

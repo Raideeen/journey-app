@@ -63,9 +63,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Preview"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/selectImageButton"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/selectImageButton" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/previewCardView"
@@ -86,10 +86,11 @@
                 android:id="@+id/previewImage"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:contentDescription="TODO"
+                android:contentDescription="@string/preview_image_of_the_story"
                 android:scaleType="centerCrop"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/img_japan" />
 
             <TextView
                 android:id="@+id/previewTitle"
@@ -99,11 +100,11 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:padding="8dp"
-                android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/previewImage"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@string/title_placeholder" />
 
             <TextView
                 android:id="@+id/previewSubtitle"
@@ -113,11 +114,11 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="2dp"
                 android:padding="8dp"
-                android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/previewImage"
-                app:layout_constraintTop_toBottomOf="@id/previewTitle" />
+                app:layout_constraintTop_toBottomOf="@id/previewTitle"
+                tools:text="@string/subtitle_placeholder" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
