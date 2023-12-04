@@ -31,6 +31,9 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_notebookFragment_to_modifyStoryFragment"
+            app:destination="@id/modifyStoryFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailsFragment"
@@ -60,5 +63,14 @@
             app:destination="@id/notebookFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/modifyStoryFragment"
+        android:name="com.example.journey.ui.story.ModifyStoryFragment"
+        android:label="fragment_modify_story"
+        tools:layout="@layout/fragment_modify_story" >
+        <action
+            android:id="@+id/action_modifyStoryFragment_to_notebookFragment"
+            app:destination="@id/notebookFragment" />
     </fragment>
 </navigation>

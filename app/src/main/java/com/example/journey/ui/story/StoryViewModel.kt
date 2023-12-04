@@ -73,4 +73,24 @@ class StoryViewModel(private val repository: StoryRepository) : ViewModel() {
             updateStoryInDatabase(story)
         }
     }
+
+    fun updateStoryTitle(updatedTitle: String) {
+        val currentStoryValue = _currentStory.value
+        currentStoryValue?.let { story ->
+            val updatedStory = story.copy(title = updatedTitle)
+            _currentStory.value = updatedStory
+            // Save the updated story to the database
+            updateStoryInDatabase(updatedStory)
+        }
+    }
+
+    fun updateStorySubtitle(updatedSubtitle: String) {
+        val currentStoryValue = _currentStory.value
+        currentStoryValue?.let { story ->
+            val updatedStory = story.copy(subtitle = updatedSubtitle)
+            _currentStory.value = updatedStory
+            // Save the updated story to the database
+            updateStoryInDatabase(updatedStory)
+        }
+    }
 }
