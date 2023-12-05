@@ -1,9 +1,15 @@
 package com.example.journey.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "country_table")
 data class CountryEntity(
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val flags: Flags,
     val name: Name,
-    val capital: List<String>
+    val capital: List<String>,
+    val region: String
 )
 
 data class Flags(

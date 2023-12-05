@@ -1,19 +1,21 @@
 package com.example.journey.service
 
+import com.example.journey.internet.RestCountriesService
 import com.example.journey.model.CountryEntity
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
-class CountryRepository(private val apiService: RestCountriesService) {
-
+class CountryRepository(
+    private val apiService: RestCountriesService,
+    private val countryDao: CountryDao
+) {
     suspend fun getCountriesByRegion(region: String): List<CountryEntity> {
-        return withContext(Dispatchers.IO) {
+        var countries = countryDao.getCountriesByRegion(region)
+        if (countries.isEmpty()) {
             val response = apiService.getCountriesByRegion(region)
             if (response.isSuccessful) {
-                response.body() ?: emptyList()
-            } else {
-                throw Exception("Error fetching countries: ${response.errorBody()?.string()}")
+                countries = response.body()?.map { it.copy(region = region) } ?: emptyList()
+                countryDao.insertAll(countries)
             }
         }
+        return countries
     }
 }

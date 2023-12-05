@@ -1,4 +1,4 @@
-package com.example.journey.service
+package com.example.journey.internet
 
 import com.example.journey.model.CountryEntity
 import retrofit2.Response

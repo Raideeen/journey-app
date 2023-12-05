@@ -11,46 +11,46 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.journey.R
 import com.example.journey.databinding.FragmentCountryIdeasBinding
+import com.example.journey.databinding.FragmentDetailsBinding
+import com.example.journey.internet.RestCountriesService
 import com.example.journey.model.CountryEntity
+import com.example.journey.service.CountryDatabase
 import com.example.journey.service.CountryRepository
-import com.example.journey.service.RestCountriesService
 
-class CountryIdeasFragment : Fragment() {
-
-    private var _binding: FragmentCountryIdeasBinding? = null
-    private val binding get() = _binding!!
+class CountryIdeasFragment : Fragment(R.layout.fragment_country_ideas) {
 
     private val viewModel: CountryViewModel by viewModels {
-        CountryViewModel.provideFactory(CountryRepository(RestCountriesService.create()))
+        CountryViewModel.provideFactory(
+            CountryRepository(
+                RestCountriesService.create(),
+                CountryDatabase.getDatabase(requireContext()).countryDao()
+            )
+        )
     }
-
     private val adapter = CountryAdapter()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentCountryIdeasBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+    private val regionCountryMap = HashMap<String, List<CountryEntity>>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val binding = FragmentCountryIdeasBinding.bind(view)
 
-        setupRecyclerView()
-        setupSpinner()
+        setupRecyclerView(binding)
+        setupSpinner(binding)
 
         viewModel.countries.observe(viewLifecycleOwner) { countries ->
             Log.d("CountryIdeasFragment", "onViewCreated: $countries")
+            val selectedRegion = binding.regionSpinner.selectedItem.toString()
+            regionCountryMap[selectedRegion] = countries
             adapter.submitList(countries)
         }
     }
 
-    private fun setupRecyclerView() {
+    private fun setupRecyclerView(binding: FragmentCountryIdeasBinding) {
         binding.countriesRecyclerView.adapter = adapter
     }
 
-    private fun setupSpinner() {
+    private fun setupSpinner(binding: FragmentCountryIdeasBinding) {
         ArrayAdapter.createFromResource(
             requireContext(),
             R.array.regions_array,
@@ -61,19 +61,25 @@ class CountryIdeasFragment : Fragment() {
         }
 
         binding.regionSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View,
+                position: Int,
+                id: Long
+            ) {
                 val region = parent.getItemAtPosition(position).toString()
-                viewModel.fetchCountriesByRegion(region)
+                if (regionCountryMap.containsKey(region)) {
+                    // If the list of countries for the selected region is already in the HashMap, use it
+                    adapter.submitList(regionCountryMap[region])
+                } else {
+                    // Otherwise, fetch the countries from the API
+                    viewModel.fetchCountriesByRegion(region)
+                }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
                 // No action needed
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }
