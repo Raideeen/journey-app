@@ -31,6 +31,9 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_notebookFragment_to_countryIdeasFragment"
+            app:destination="@id/countryIdeasFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailsFragment"
@@ -61,4 +64,9 @@
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim" />
     </fragment>
+    <fragment
+        android:id="@+id/countryIdeasFragment"
+        android:name="com.example.journey.ui.country.CountryIdeasFragment"
+        android:label="fragment_country_ideas"
+        tools:layout="@layout/fragment_country_ideas" />
 </navigation>

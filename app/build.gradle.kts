@@ -91,4 +91,16 @@ dependencies {
 
     // Material Design
     implementation("com.google.android.material:material:1.10.0")
+
+    // Retrofit & OkHttp
+    val retrofitVersion = "2.9.0"
+    val okHttpVersion = "4.12.0"
+
+    // Retrofit & OkHttp
+    implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
+    implementation("com.squareup.okhttp3:okhttp:$okHttpVersion")
+    implementation("com.squareup.okhttp3:logging-interceptor:$okHttpVersion")
+
+    // JSON Converter
+    implementation("com.squareup.retrofit2:converter-gson:$retrofitVersion")
 }
