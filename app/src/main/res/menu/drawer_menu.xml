@@ -6,17 +6,17 @@
             android:id="@id/profileFragment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:title="Profile" />
+            android:title="@string/profile" />
 
         <item
             android:id="@id/notebookFragment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:title="Notebook" />
+            android:title="@string/notebook" />
         <item
             android:id="@id/countryIdeasFragment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:title="Country Ideas" />
+            android:title="@string/country_ideas" />
     </group>
 </menu>
