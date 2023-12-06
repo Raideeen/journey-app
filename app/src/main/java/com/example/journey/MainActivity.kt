@@ -87,6 +87,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.profileFragment -> supportActionBar?.title = "Profile"
                 R.id.detailsFragment -> supportActionBar?.title = "Story Details"
                 R.id.countryIdeasFragment -> supportActionBar?.title = "Country Ideas"
+                R.id.newStoryFragment -> supportActionBar?.title = "New Story"
                 // Additional cases can be added for other destinations.
             }
         }
