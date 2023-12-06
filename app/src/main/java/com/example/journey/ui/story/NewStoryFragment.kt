@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
@@ -13,6 +14,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
@@ -91,6 +93,7 @@ class NewStoryFragment : Fragment(R.layout.fragment_new_story) {
     /**
      * Called when the view is created.
      */
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -116,32 +119,24 @@ class NewStoryFragment : Fragment(R.layout.fragment_new_story) {
 
         // Set click listener for the select image button
         selectImageButton.setOnClickListener {
-            when {
+            when (PackageManager.PERMISSION_GRANTED) {
                 ContextCompat.checkSelfPermission(
                     requireContext(),
-                    android.Manifest.permission.READ_EXTERNAL_STORAGE
-                ) == PackageManager.PERMISSION_GRANTED -> {
-                    // Permission is granted, open the gallery
+                    android.Manifest.permission.READ_MEDIA_IMAGES
+                ) -> {
                     openImagePicker()
                 }
 
-                shouldShowRequestPermissionRationale(android.Manifest.permission.READ_EXTERNAL_STORAGE) -> {
-                    // Show an explanation to the user *asynchronously*
-                    Snackbar.make(
-                        requireView(),
-                        "Permission needed for selecting an image",
-                        Snackbar.LENGTH_SHORT
-                    ).setAction("OK") {
-                        requestPermissionLauncher.launch(android.Manifest.permission.READ_EXTERNAL_STORAGE)
-                    }.show()
-                }
-
                 else -> {
-                    // No explanation needed, we can request the permission.
-                    requestPermissionLauncher.launch(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        requestPermissionLauncher.launch(android.Manifest.permission.READ_MEDIA_IMAGES)
+                    } else {
+                        requestPermissionLauncher.launch(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+                    }
                 }
             }
         }
+
 
         // Set click listener for the save button
         saveButton.setOnClickListener {
