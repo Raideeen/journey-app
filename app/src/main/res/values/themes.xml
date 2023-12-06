@@ -29,11 +29,21 @@
         <item name="colorPrimaryInverse">@color/light_inversePrimary</item>
     </style>
 
-    <style name="StoryTitle" parent="TextAppearance.MaterialComponents.Headline5" />
+    <!-- Those styles are used in the details fragment -->
+    <style name="StoryTitle" parent="TextAppearance.MaterialComponents.Headline5">
+        <item name="android:textColor">@color/light_onPrimary</item>
+    </style>
+
+    <style name="StoryDetailText" parent="TextAppearance.MaterialComponents.Headline6" />
 
     <style name="StorySubTitle" parent="TextAppearance.MaterialComponents.Subtitle1" />
 
     <style name="StoryBody" parent="TextAppearance.MaterialComponents.Body1" />
+
+    <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorControlNormal">@color/light_onPrimary</item>
+        <item name="colorControlHighlight">@color/light_onPrimary</item>
+    </style>
 
     <style name="ToolbarTitleStyle" parent="@android:style/TextAppearance.DeviceDefault.Widget.ActionBar.Title">
         <item name="android:textColor">@color/light_onPrimary</item>

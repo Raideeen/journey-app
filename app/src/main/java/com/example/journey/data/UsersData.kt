@@ -4,7 +4,7 @@ import com.example.journey.model.User
 
 object UsersData {
     fun getUsersData() :User{
-        return User(1, "user","1234" )
+        return User(1, "test","1234" )
     }
 
 }

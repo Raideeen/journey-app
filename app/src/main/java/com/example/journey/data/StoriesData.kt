@@ -1,12 +1,12 @@
 package com.example.journey.data
 
 import com.example.journey.R
-import com.example.journey.model.Story
+import com.example.journey.model.StoryEntity
 
 object StoriesData {
-    fun getStoriesData(): ArrayList<Story> {
+    fun getStoriesData(): ArrayList<StoryEntity> {
         return arrayListOf(
-            Story(
+            StoryEntity(
                 id = 1,
                 titleResourceId = R.string.china_title,
                 subTitleResourceId = R.string.china_subtitle,
@@ -14,7 +14,7 @@ object StoriesData {
                 storyImageBanner = R.drawable.img_wall_of_china_selfie,
                 storyDetails = R.string.story_detail_text,
             ),
-            Story(
+            StoryEntity(
                 id = 2,
                 titleResourceId = R.string.egypt_title,
                 subTitleResourceId = R.string.egypt_subtitle,
@@ -22,7 +22,7 @@ object StoriesData {
                 storyImageBanner = R.drawable.img_egypt_selfie,
                 storyDetails = R.string.story_detail_text,
             ),
-            Story(
+            StoryEntity(
                 id = 3,
                 titleResourceId = R.string.italy_title,
                 subTitleResourceId = R.string.italy_subtitle,
@@ -30,7 +30,7 @@ object StoriesData {
                 storyImageBanner = R.drawable.img_italy_selfie,
                 storyDetails = R.string.story_detail_text,
             ),
-            Story(
+            StoryEntity(
                 id = 4,
                 titleResourceId = R.string.japan_title,
                 subTitleResourceId = R.string.japan_subtitle,
@@ -38,7 +38,7 @@ object StoriesData {
                 storyImageBanner = R.drawable.img_japan,
                 storyDetails = R.string.story_detail_text,
             ),
-            Story(
+            StoryEntity(
                 id = 5,
                 titleResourceId = R.string.mexico_title,
                 subTitleResourceId = R.string.mexico_subtitle,
@@ -46,7 +46,7 @@ object StoriesData {
                 storyImageBanner = R.drawable.img_mexico_selfie,
                 storyDetails = R.string.story_detail_text,
             ),
-            Story(
+            StoryEntity(
                 id = 6,
                 titleResourceId = R.string.peru_title,
                 subTitleResourceId = R.string.peru_subtitle,

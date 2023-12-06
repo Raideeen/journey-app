@@ -3,19 +3,46 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/loginFragment">
+    tools:layout="@layout/fragment_notebook"
+    app:startDestination="@id/storyNotebookFragment">
+
     <fragment
-        android:id="@+id/loginFragment"
+        android:id="@+id/profilFragment"
+        android:name="com.example.journey.ui.users.ProfilFragment"
+        android:label="fragment_profil"
+        tools:layout="@layout/fragment_profil" >
+        <action
+            android:id="@+id/action_profilFragment_to_mentionsLegalesFragment"
+            app:destination="@id/mentionsLegalesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mentionsLegalesFragment"
+        android:name="com.example.journey.MentionsLegalesFragment"
+        android:label="fragment_mentions_legales"
+        tools:layout="@layout/fragment_mentions_legales" />
+    <fragment
+        android:id="@+id/storyNotebookFragment"
+        android:name="com.example.journey.ui.story.StoryNotebookFragment"
+        android:label="fragment_notebook"
+        tools:layout="@layout/fragment_notebook" >
+        <action
+            android:id="@+id/action_storyNotebookFragment_to_profilFragment"
+            app:destination="@id/profilFragment" />
+        <action
+            android:id="@+id/action_storyNotebookFragment_to_storyDetailsFragment"
+            app:destination="@id/storyDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/storyDetailsFragment"
+        android:name="com.example.journey.ui.story.StoryDetailsFragment"
+        android:label="StoryDetailsFragment" />
+    <fragment
+        android:id="@+id/loginFragment2"
         android:name="com.example.journey.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
-            android:id="@+id/action_loginFragment_to_notebookFragment"
-            app:destination="@id/notebookFragment" />
+            android:id="@+id/action_loginFragment2_to_storyNotebookFragment"
+            app:destination="@id/storyNotebookFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/notebookFragment"
-        android:name="com.example.journey.NotebookFragment"
-        android:label="fragment_notebook"
-        tools:layout="@layout/fragment_notebook" />
 </navigation>
