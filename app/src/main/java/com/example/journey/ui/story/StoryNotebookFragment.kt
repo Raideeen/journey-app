@@ -91,7 +91,6 @@ class StoryNotebookFragment : Fragment() {
         findNavController().navigate(action)
     }
 
-
     /**
      * Called when the view hierarchy associated with the fragment is being destroyed.
      * It allows the fragment to clean up resources associated with its View.

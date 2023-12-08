@@ -30,6 +30,10 @@ class StoryDetailsFragment : Fragment(R.layout.fragment_details) {
     // Flag to indicate whether the fragment is in edit mode
     private var isEditMode = false
 
+    /**
+     * Called when the view is created.
+     * Initializes UI elements and sets up listeners.
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val binding = FragmentDetailsBinding.bind(view)
@@ -51,11 +55,21 @@ class StoryDetailsFragment : Fragment(R.layout.fragment_details) {
 
         // Setup menu provider for edit/read toggle
         val menuProvider = object : MenuProvider {
+            /**
+             * Called to create a menu.
+             * @param menu The menu to be created.
+             * @param menuInflater The MenuInflater to be used to inflate the menu.
+             */
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 // Inflate the menu
                 menuInflater.inflate(R.menu.menu_edit_read, menu)
             }
 
+            /**
+             * Called when a menu item is selected.
+             * @param menuItem The selected menu item.
+             * @return True if the selection was handled, false otherwise.
+             */
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 // Handle menu item selection
                 return when (menuItem.itemId) {

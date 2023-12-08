@@ -29,6 +29,8 @@ import java.io.InputStream
 
 /**
  * Fragment for creating a new story.
+ * This fragment allows the user to input a title, subtitle, and select an image for a new story.
+ * The new story is then saved to the database.
  */
 class NewStoryFragment : Fragment(R.layout.fragment_new_story) {
 
@@ -51,6 +53,7 @@ class NewStoryFragment : Fragment(R.layout.fragment_new_story) {
     // URI of the selected image
     private var selectedImageUri: Uri? = null
 
+    // Launcher for requesting permission to read images from the media
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
@@ -67,6 +70,9 @@ class NewStoryFragment : Fragment(R.layout.fragment_new_story) {
         }
     }
 
+    /**
+     * Opens the image picker to select an image from the gallery.
+     */
     private fun openImagePicker() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         imagePickerLauncher.launch(intent)
@@ -74,6 +80,7 @@ class NewStoryFragment : Fragment(R.layout.fragment_new_story) {
 
     /**
      * Called when the fragment is created.
+     * Registers a callback for picking an image from the gallery.
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -92,6 +99,7 @@ class NewStoryFragment : Fragment(R.layout.fragment_new_story) {
 
     /**
      * Called when the view is created.
+     * Initializes UI elements and sets up listeners.
      */
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -116,7 +124,6 @@ class NewStoryFragment : Fragment(R.layout.fragment_new_story) {
             previewSubtitle.text = it.toString()
         }
 
-
         // Set click listener for the select image button
         selectImageButton.setOnClickListener {
             when (PackageManager.PERMISSION_GRANTED) {
@@ -137,7 +144,6 @@ class NewStoryFragment : Fragment(R.layout.fragment_new_story) {
             }
         }
 
-
         // Set click listener for the save button
         saveButton.setOnClickListener {
             val title = titleEditText.text.toString()
@@ -153,7 +159,6 @@ class NewStoryFragment : Fragment(R.layout.fragment_new_story) {
             }
 
             val imageUri = copyImageToInternalStorage(selectedImageUri!!).toString()
-
 
             // Create a new story and insert it into the database
             val newStory = StoryEntity(

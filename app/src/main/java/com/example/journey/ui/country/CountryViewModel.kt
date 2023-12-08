@@ -14,8 +14,19 @@ import com.example.journey.service.CountryRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+/**
+ * ViewModel for the Country feature of the application.
+ * This ViewModel is responsible for managing the data for the UI and communicating with the repository to perform API operations.
+ * It exposes LiveData objects that the UI can observe.
+ *
+ * @property repository The repository this ViewModel will communicate with.
+ */
 class CountryViewModel(private val repository: CountryRepository) : ViewModel() {
 
+    /**
+     * Factory for creating instances of the CountryViewModel.
+     * This factory is necessary because the CountryViewModel requires a CountryRepository, which is created using the application context.
+     */
     companion object {
         fun provideFactory(repository: CountryRepository): ViewModelProvider.Factory {
             return object : ViewModelProvider.Factory {
@@ -30,30 +41,26 @@ class CountryViewModel(private val repository: CountryRepository) : ViewModel() 
         }
     }
 
+    // LiveData object exposing the list of all countries from the repository.
     private val _countries = MutableLiveData<List<CountryEntity>>()
     val countries: LiveData<List<CountryEntity>>
         get() = _countries
 
+    // LiveData object exposing the loading state of the ViewModel.
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean>
         get() = _isLoading
 
+    // LiveData object exposing any error messages that occur during API operations.
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String>
         get() = _errorMessage
 
-    private fun isNetworkAvailable(context: Context): Boolean {
-        val connectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val network = connectivityManager.activeNetwork ?: return false
-        val activeNetwork = connectivityManager.getNetworkCapabilities(network) ?: return false
-        return when {
-            activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
-            activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
-            else -> false
-        }
-    }
-
+    /**
+     * Fetches the list of countries by region from the API and updates the LiveData objects.
+     *
+     * @param region The region to fetch countries for.
+     */
     fun fetchCountriesByRegion(region: String) {
         viewModelScope.launch {
             _isLoading.value = true

@@ -7,8 +7,18 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.journey.R
 
+/**
+ * A [Fragment] subclass that serves as a splash screen.
+ * This fragment is responsible for checking if the user is already logged in and navigating to the appropriate fragment.
+ * If the user is already logged in, it navigates to the notebook fragment.
+ * If the user is not logged in, it navigates to the login fragment.
+ */
 class SplashFragment : Fragment(R.layout.fragment_splash) {
 
+    /**
+     * Called when the view is created.
+     * Initializes UI elements and sets up listeners.
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

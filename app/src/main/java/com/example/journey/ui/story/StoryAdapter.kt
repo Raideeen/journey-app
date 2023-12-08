@@ -38,9 +38,13 @@ class StoryAdapter(private val onItemClicked: (StoryEntity) -> Unit) :
          * @param context The context in which the ViewHolder is being used.
          */
         fun bind(storyEntity: StoryEntity, context: Context) {
+            // Set the title of the story
             binding.title.text = storyEntity.title
+            // Set the subtitle of the story
             binding.subtitle.text = storyEntity.subtitle
+            // Set the description of the story
             binding.description.text = storyEntity.storyDetails
+            // Load the image for the story
             binding.travelImage.load(storyEntity.imageUri)
         }
     }
@@ -53,10 +57,13 @@ class StoryAdapter(private val onItemClicked: (StoryEntity) -> Unit) :
      * @return A new ViewHolder that holds a View of the given view type.
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StoryViewHolder {
+        // Get the context from the parent ViewGroup
         context = parent.context
+        // Inflate the layout for the list item
         val binding = NotebookListItemBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
+        // Return a new ViewHolder with the inflated layout
         return StoryViewHolder(binding)
     }
 
@@ -67,10 +74,14 @@ class StoryAdapter(private val onItemClicked: (StoryEntity) -> Unit) :
      * @param position The position of the item within the adapter's data set.
      */
     override fun onBindViewHolder(holder: StoryViewHolder, position: Int) {
+        // Get the story at the current position
         val currentStory = getItem(position)
+        // Set the click listener for the item view
         holder.itemView.setOnClickListener {
+            // Invoke the onItemClicked function when the item is clicked
             onItemClicked(currentStory)
         }
+        // Bind the story to the ViewHolder
         holder.bind(currentStory, context)
     }
 
@@ -87,6 +98,7 @@ class StoryAdapter(private val onItemClicked: (StoryEntity) -> Unit) :
              * @return True if the two items represent the same object or false if they are different.
              */
             override fun areItemsTheSame(oldItem: StoryEntity, newItem: StoryEntity): Boolean {
+                // Check if the items are the same based on their id or title
                 return oldItem.id == newItem.id ||
                         oldItem.title == newItem.title
             }
@@ -100,6 +112,7 @@ class StoryAdapter(private val onItemClicked: (StoryEntity) -> Unit) :
              * @return True if the contents of the items are the same or false if they are different.
              */
             override fun areContentsTheSame(oldItem: StoryEntity, newItem: StoryEntity): Boolean {
+                // Check if the contents of the items are the same
                 return oldItem == newItem
             }
         }

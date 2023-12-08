@@ -13,17 +13,20 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.journey.databinding.ActivityMainBinding
 import com.google.android.material.navigation.NavigationView
 
-// MainActivity sets up the navigation drawer and manages navigation.
+/**
+ * MainActivity is the entry point of the application.
+ * It sets up the navigation drawer and manages navigation.
+ */
 class MainActivity : AppCompatActivity() {
 
     // DrawerLayout is the root layout for activity_main.xml. It allows a
     // navigation drawer to slide in and out.
     private lateinit var drawerLayout: DrawerLayout
 
-    // ? AppBarConfiguration links the NavController with the DrawerLayout. It's
-    // ? used to configure how the ActionBar behaves with the NavController,
-    // ? including showing the hamburger menu icon and handling the "up"
-    // ? navigation.
+    // AppBarConfiguration links the NavController with the DrawerLayout. It's
+    // used to configure how the ActionBar behaves with the NavController,
+    // including showing the hamburger menu icon and handling the "up"
+    // navigation.
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     // NavigationView represents the sidebar. It's where you define your
@@ -37,6 +40,10 @@ class MainActivity : AppCompatActivity() {
     // like the ActionBar's title.
     private lateinit var listener: NavController.OnDestinationChangedListener
 
+    /**
+     * Called when the activity is starting.
+     * This is where most initialization happens.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -44,9 +51,9 @@ class MainActivity : AppCompatActivity() {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // ? The Toolbar is set as the ActionBar. The ActionBar is where you'll
-        // ? see the hamburger menu icon and title. It acts as the primary toolbar
-        // ? at the top of the screen.
+        // The Toolbar is set as the ActionBar. The ActionBar is where you'll
+        // see the hamburger menu icon and title. It acts as the primary toolbar
+        // at the top of the screen.
         val toolbar = binding.toolbar
         setSupportActionBar(toolbar)
 
@@ -63,10 +70,10 @@ class MainActivity : AppCompatActivity() {
             .findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
         navController = navHostFragment.navController
 
-        // ? AppBarConfiguration ties together the drawer layout and the
-        // ? NavController. It's used to determine when the hamburger menu should
-        // ? be shown (indicating the navigation drawer can be opened) and handles
-        // ? the up navigation within the ActionBar.
+        // AppBarConfiguration ties together the drawer layout and the
+        // NavController. It's used to determine when the hamburger menu should
+        // be shown (indicating the navigation drawer can be opened) and handles
+        // the up navigation within the ActionBar.
         appBarConfiguration = AppBarConfiguration(
             setOf(R.id.notebookFragment, R.id.profileFragment), // Add all your top-level destinations here
             drawerLayout
@@ -113,13 +120,19 @@ class MainActivity : AppCompatActivity() {
         onBackPressedDispatcher.addCallback(this, callback)
     }
 
+    /**
+     * Called when the activity's option item is selected.
+     * It ensures that the NavController handles the up navigation,
+     * considering the DrawerLayout configuration.
+     */
     override fun onSupportNavigateUp(): Boolean {
-        // This method is called when the up button in the ActionBar is pressed.
-        // It ensures that the NavController handles the up navigation,
-        // considering the DrawerLayout configuration.
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
+    /**
+     * Called after onCreate() — or after onRestart() when the activity had been stopped, but is now again being displayed to the user.
+     * It will be followed by onResume().
+     */
     override fun onResume() {
         super.onResume()
         // Add the destination change listener to the NavController when the
@@ -128,6 +141,10 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener(listener)
     }
 
+    /**
+     * Called as part of the activity lifecycle when an activity is going into the background, but has not (yet) been killed.
+     * The counterpart to onResume().
+     */
     override fun onPause() {
         super.onPause()
         // Remove the destination change listener from the NavController when
