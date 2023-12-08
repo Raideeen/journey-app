@@ -63,4 +63,7 @@
     <color name="dark_surfaceTint">#D0BCFF</color>
     <color name="dark_outlineVariant">#49454F</color>
     <color name="dark_scrim">#000000</color>
+    <color name="frameLayout_background">#F5EFF7</color>
+    <color name="constraintLayout_onPrimaryContainer">#EADDFF</color>
+    <color name="textColor">#000000</color>
 </resources>

@@ -1,6 +1,7 @@
 package com.example.journey
 
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
@@ -66,7 +67,10 @@ class MainActivity : AppCompatActivity() {
         // ? NavController. It's used to determine when the hamburger menu should
         // ? be shown (indicating the navigation drawer can be opened) and handles
         // ? the up navigation within the ActionBar.
-        appBarConfiguration = AppBarConfiguration(navController.graph, drawerLayout)
+        appBarConfiguration = AppBarConfiguration(
+            setOf(R.id.notebookFragment, R.id.profileFragment), // Add all your top-level destinations here
+            drawerLayout
+        )
 
         // Connect the NavigationView with the NavController. This allows for
         // the selection of items in the NavigationView to control the
@@ -88,11 +92,25 @@ class MainActivity : AppCompatActivity() {
                 R.id.detailsFragment -> supportActionBar?.title = "Story Details"
                 R.id.countryIdeasFragment -> supportActionBar?.title = "Country Ideas"
                 R.id.newStoryFragment -> supportActionBar?.title = "New Story"
-                // Additional cases can be added for other destinations.
+                R.id.profileLegalNotice -> supportActionBar?.title = "Legal Notice"
+                R.id.loginFragment -> supportActionBar?.title = "Login"
             }
         }
 
+        // Handle the back press
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (navController.currentDestination?.id == R.id.notebookFragment) {
+                    finish() // Close the app
+                } else {
+                    // Handle it as per the navigation graph
+                    navController.navigateUp()
+                }
+            }
+        }
 
+        // Register the callback
+        onBackPressedDispatcher.addCallback(this, callback)
     }
 
     override fun onSupportNavigateUp(): Boolean {

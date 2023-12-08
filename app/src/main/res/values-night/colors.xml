@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="frameLayout_background">#322F35</color>
+    <color name="constraintLayout_onPrimaryContainer">#D0BCFF</color>
+    <color name="textColor">#FFFFFF</color>
+</resources>
