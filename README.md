@@ -5,6 +5,9 @@ create and save their own stories written in markdown and includes a database of
 from the [REST Countries API](https://restcountries.com/).
 It uses Room for local data storage and Espresso for UI testing.
 
+The UI was done after a brainstorming session with the team on Figma. The design is available
+[here](https://www.figma.com/file/4xxjfYXQLtH9SQe82CzDnz/Mobiles-Devices?type=design&node-id=0%3A1&mode=design&t=SVQJedeJF3M1GOJq-1).
+
 ## Installation
 
 Clone this repository and import into **Android Studio**
@@ -60,10 +63,10 @@ at `adrien.djebar@proton.me`.
 ## Acknowledgments
 
 This simple application was developed as part of the Android course at the École supérieure
-d'ingénieurs Léonard-de-Vinci (ESILV) located at Paris La Défense.
+d'ingénieurs Léonard-de-Vinci (ESILV) located at Paris La Défense with our amazing team composed of
+Lucile Dresler, Ridge Lowao, Abdelhak Hacib and myself.
 
 We would like to thanks our Android
 professor, [Arnaud Chirat](linkedin.com/in/arnaud-chirat-30b58413a), for his guidance and support.
-
 
 Thanks to all the contributors of the libraries used in this project.
