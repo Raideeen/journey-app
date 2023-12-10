@@ -1,4 +1,4 @@
 package com.example.journey
 
-class StoryUITest {
+class StoryViewModelTest {
 }
