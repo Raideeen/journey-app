@@ -38,6 +38,11 @@ To run the existing UI tests, use the following command:
 ./gradlew connectedAndroidTest
 ```
 
+Note that the UI test doesn't work for an obscure reason. The test is supposed to click on the
+"Create a new story" button and check if the user is redirected to the story creation page. However,
+the test fails because the `addStoryButton` is not found. We tried to fix the issue but we didn't 
+find any solution.
+
 ## Dependencies
 
 The project is built with the following dependencies:
